@@ -156,7 +156,7 @@ def backward_propagation(Y, weights, activations_cache, i_cache, activations):
     for l in range(len(weights)):
         gradients_W[l] = deltas[l] * activations_cache[l].T
         gradients_B[l] = deltas[l]  # For biases, the delta itself is used.
-        print(f"ΔW Couche {l + 1} (affiché en format (neurones_prev x neurones_next)) :\n{gradients_W[l].T}")
+        print(f"ΔW Couche {l + 1} (affiché en format (neurones_prev x neurones_next)) :\n{-gradients_W[l].T}")
     return gradients_W, gradients_B
 
 
