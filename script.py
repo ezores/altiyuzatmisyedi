@@ -18,13 +18,25 @@ def sigmoid_derivative(a):
     # Assumes 'a' is the output of the sigmoid function.
     return a.applyfunc(lambda z: z * (1 - z))
 
+def tan(x):
+    return x.applyfunc(sp.tan)
 
+def tan_derivative(a):
+    return a.applyfunc(lambda z: 1 / sp.cos(z)**2)
+
+
+# def tanh(x):
+#     return x.applyfunc(sp.tanh)
+#
+#
+# def tanh_derivative(a):
+#     return a.applyfunc(lambda z: 1 - z ** 2)
+# Define the tanh function
 def tanh(x):
-    return x.applyfunc(sp.tanh)
+    return x.applyfunc(lambda z: (sp.exp(2*z) - 1) / (sp.exp(2*z) + 1))
 
-
-def tanh_derivative(a):
-    return a.applyfunc(lambda z: 1 - z ** 2)
+def tanh_derivative(i_val):
+    return i_val.applyfunc(lambda z: (4 * sp.exp(2*z)) / (sp.exp(2*z) + 1)**2)
 
 
 def softmax(x):
@@ -56,6 +68,7 @@ def custom_activation_derivative(a):
 activation_functions = {
     'sigmoide': (sigmoid, sigmoid_derivative),
     'tanh': (tanh, tanh_derivative),
+    'tan': (tan, tan_derivative),
     'softmax': (softmax, softmax_derivative),
     'personnalisée': (custom_activation, custom_activation_derivative)
 }
@@ -73,7 +86,7 @@ def get_user_input():
         layer_sizes.append(size)
         if i > 0:  # pas de fonction d'activation pour la couche d'entrée
             act = input(
-                f"Entrez la fonction d'activation pour la couche {i + 1} (sigmoïde/tanh/softmax/personnalisée) : ").strip()
+                f"Entrez la fonction d'activation pour la couche {i + 1} (sigmoïde/tan/tanh/softmax/personnalisée) : ").strip()
             activations.append(act)
 
     weights = []
@@ -187,4 +200,4 @@ if __name__ == "__main__":
     activations_cache, i_cache = forward_propagation(X, weights, biases, activations)
     gradients_W, gradients_B = backward_propagation(Y, weights, activations_cache, i_cache, activations)
     updated_weights, updated_biases = update_weights(weights, biases, gradients_W, gradients_B,
-                                                     learning_rate=sp.Float(0.1))
+                                                     learning_rate=sp.Float(0.2))
