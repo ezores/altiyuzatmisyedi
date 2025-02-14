@@ -136,7 +136,7 @@ def backward_propagation(Y, weights, activations_cache, i_cache, activations):
     L = len(weights) - 1  # Index of the output layer connection
 
     # Compute delta for output layer.
-    delta_L = Y - activations_cache[-1]
+    delta_L = activations_cache[-1] - Y  # Corrected sign here
     if activations[L] != 'softmax':
         # Elementwise multiplication with the derivative of the activation function.
         delta_L = hadamard_product(delta_L, activation_functions[activations[L]][1](activations_cache[-1]))
